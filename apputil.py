@@ -13,7 +13,7 @@ class GroupEstimate:
         """Fit function from part two"""
         #Check that there are no missing values in y
         print(X.columns)
-        print(y.columns)
+        #print(y.columns)
         if any(np.isnan(y)): 
             raise ValueError(f"Array y contains missing values. Please correct data and try again") 
         #Check that x and y are the same size 
@@ -21,8 +21,10 @@ class GroupEstimate:
             raise ValueError(f"Dataframe X is not the same lenght as array y") 
         #Get the variable names for X 
         cols = list(X.columns)
+        print("Got Columns")
         #Combin X and y
         X["target"] = y
+        print("Added y to x")
 
         #Group by the variables in X and provide estimate of them 
         if self.estimate == "mean":
