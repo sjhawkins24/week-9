@@ -43,16 +43,21 @@ class GroupEstimate:
         print(data.columns)
 
         #Now we use a for loop to work through the prediction values 
-        res = []
+        res = np.empty(0)
 
         for row in X_:  
             #Create a mask 
             mask = (data.iloc[:, 0:(len(data.columns)-1)] == row)
             #Get the corresponding target value
             if len(data["target"][mask.sum(axis=1) == 2]) == 0: 
-                res.append(float("nan"))
+                res = np.append(res, float("nan"))
+                #res.append(float("nan"))
             else:
-                res.append(data["target"][mask.sum(axis=1) == 2])
+                print("Printing target")
+                print(data["target"][mask.sum(axis=1) == 2])
+                res = np.append(res, data["target"][mask.sum(axis=1) == 2])
+                #res.append(data["target"][mask.sum(axis=1) == 2])
 
-        print(np.array(res))
-        return np.array(res)
+        #res = np.array(res)
+        print(res)
+        return res
