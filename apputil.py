@@ -23,14 +23,24 @@ def GroupEstimate(object):
         X["target"] = y
 
         #Group by the variables in X and provide estimate of them 
-        est_dict = dict()
-        for col in cols: 
-            if self.estimate == "mean":
-                est_dict[col] = X.groupby(col)['target'].mean()
-            else: 
-                est_dict[col] = X.groupby(col)['target'].mean()
+        if self.estimate == "mean":
+            ests =  X.groupby(cols)['target'].mean()
+        else: 
+            ests =  X.groupby(cols)['target'].median()
+        return ests.reset_index()
 
-        return est_dict
+    def predict(self, X, y, X_):
+        """Function for prediction exercise in part three"""
+        #Start by getting the results of .fit
+        ests = self.fit(X, y)
+        #Now store it in a dataframe that we can use 
+        data = pd.DataFrame(ests)
 
-    def predict(self, X):
-        return None
+        #Now we use a for loop to work through the prediction values 
+        res = []
+        for row in X_: 
+            #Create a mask 
+            mask = (data.iloc[:, 0:(len(data.columns)-1)] == ["Columbia", "Dark"])
+            #Get the corresponding target value
+            res.append(data["target"][mask.sum(axis=1) == 2])
+        return res
