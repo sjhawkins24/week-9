@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 
-def GroupEstimate(estimate, X = None, y = None, X_ = None):
+class GroupEstimate:
     def __init__(self, estimate):
         """Making sure estimate is either median or mean"""
         print(estimate)
