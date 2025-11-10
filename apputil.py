@@ -31,20 +31,21 @@ class GroupEstimate:
             ests =  X.groupby(cols)['target'].mean()
         else: 
             ests =  X.groupby(cols)['target'].median()
-        return ests.reset_index()
+        self.ests = ests
+        return None
 
-    def predict(self, X, y, X_):
+    def predict(self, X_):
         """Function for prediction exercise in part three"""
         #Start by getting the results of .fit
-        ests = self.fit(X, y)
         #Now store it in a dataframe that we can use 
-        data = pd.DataFrame(ests)
+        data = pd.DataFrame(self.ests)
 
         #Now we use a for loop to work through the prediction values 
         res = []
-        for row in X_: 
+
+        for row in X_:  
             #Create a mask 
-            mask = (data.iloc[:, 0:(len(data.columns)-1)] == ["Columbia", "Dark"])
+            mask = (data.iloc[:, 0:(len(data.columns)-1)] == row)
             #Get the corresponding target value
             res.append(data["target"][mask.sum(axis=1) == 2])
         return res
