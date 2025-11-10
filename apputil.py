@@ -2,9 +2,10 @@ import pandas as pd
 import numpy as np
 
 
-def GroupEstimate(object):
+def GroupEstimate(estimate, X = None, y = None, X_ = None):
     def __init__(self, estimate):
         """Making sure estimate is either median or mean"""
+        print(estimate)
         if estimate not in ["median", "mean"]:
             raise ValueError(f"You passed {estimate}. Estimate argument must be either median or mean") 
         self.estimate = estimate
