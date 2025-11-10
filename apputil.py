@@ -31,7 +31,7 @@ class GroupEstimate:
             ests =  X.groupby(cols)['target'].mean()
         else: 
             ests =  X.groupby(cols)['target'].median()
-        self.ests = ests
+        self.ests = ests.reset_index()
         return None
 
     def predict(self, X_):
@@ -39,6 +39,8 @@ class GroupEstimate:
         #Start by getting the results of .fit
         #Now store it in a dataframe that we can use 
         data = pd.DataFrame(self.ests)
+        print(data.head())
+        print(data.columns)
 
         #Now we use a for loop to work through the prediction values 
         res = []
@@ -47,5 +49,8 @@ class GroupEstimate:
             #Create a mask 
             mask = (data.iloc[:, 0:(len(data.columns)-1)] == row)
             #Get the corresponding target value
-            res.append(data["target"][mask.sum(axis=1) == 2])
+            if len(data["target"][mask.sum(axis=1) == 2]) == 0: 
+                res.append(float("nan"))
+            else:
+                res.append(data["target"][mask.sum(axis=1) == 2])
         return res
