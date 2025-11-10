@@ -53,4 +53,4 @@ class GroupEstimate:
                 res.append(float("nan"))
             else:
                 res.append(data["target"][mask.sum(axis=1) == 2])
-        return res
+        return np.array(res)
